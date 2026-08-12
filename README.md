@@ -1,38 +1,37 @@
-# Home Healthcare Demand Planner (Phase 2 - Cloud Mirror)
+# Home Healthcare Demand Planner (POC-06)
 
-This repository contains the Phase 2 containerized environment for the Home Healthcare Demand Planner (POC 06). The application has been migrated from a local OS execution model to a strict containerized environment using Docker, ensuring 100% parity with future Azure Cloud deployments.
+A geospatial intelligence dashboard designed to visualize the supply-demand gap for home healthcare services across Gulf regions. This tool turns abstract wait times and capacity limits into actionable, interactive mapping data for healthcare administrators and planners.
 
-## Architecture
-* **Frontend:** Next.js (Node 18 Alpine), configured with standalone output and internal API proxying.
-* **Backend:** FastAPI (Python 3.11 Slim), bound to `0.0.0.0` for container networking.
-* **Orchestration:** Docker Compose V2.
+## 🚀 Features
 
-## Environment Configuration
-No strict API keys are required for the base synthetic data generation. However, a `.env` file should be placed in the root directory for any future external API integrations (e.g., Mapbox tokens).
+* **Interactive Geospatial Mapping:** Live visualization of patient demand (urgency-weighted) vs. available caregiver supply using Leaflet and CartoDB Dark Matter tiles.
+* **Real-Time Analytics:** Dynamic key performance indicators (KPIs) tracking active requests, deployed caregivers, and staffing ratios.
+* **Trend & Wait Time Charts:** Visual breakdowns of visit volumes and zonal wait times using Recharts.
+* **Dynamic Filtering:** Filter data instantly by City (Abu Dhabi, Dubai, Riyadh, Jeddah) and Service Tiers (Post-Op, Elderly Assistance, etc.).
+* **Data Export:** One-click generation and download of CSV reports for offline analysis.
 
-**Example `.env` (Root Directory):**
-\`\`\`env
-# NEXT_PUBLIC_MAPBOX_TOKEN=your_token_here
-\`\`\`
+## 🛠️ Tech Stack
 
-## Startup Instructions & Docker Commands
-Ensure Docker Desktop is installed and running with hardware virtualization enabled.
+**Frontend (Client):**
+* Next.js 14 (App Router)
+* React 18 / TypeScript
+* Tailwind CSS (Real Rails Dark Theme)
+* `react-leaflet` (Geospatial Rendering)
+* `recharts` (Data Visualization)
+* `lucide-react` (Iconography)
 
-1. Clone this repository.
-2. Open a terminal in the root directory.
-3. Build and spin up the container stack:
-   \`\`\`bash
-   docker compose up --build
-   \`\`\`
-4. Access the Frontend Dashboard: [http://localhost:3000](http://localhost:3000)
-5. Access the Backend API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+**Backend (API):**
+* Python 3
+* FastAPI
+* Uvicorn (ASGI Server)
 
-To shut down the containers gracefully, use:
-\`\`\`bash
-docker compose down
-\`\`\`
+## 📦 Getting Started
 
-## Troubleshooting Notes
-* **Port Conflicts:** If ports `3000` or `8000` are already in use, stop the conflicting local services before running `docker compose up`.
-* **API Connection Errors:** The Next.js frontend is configured to proxy `/api` calls directly to the backend container via the Docker service network. Do not bypass this by hardcoding `localhost:8000` in the frontend code.
-* **Virtualization Errors:** If Docker Desktop fails to start, ensure Virtualization is enabled in your BIOS/UEFI and WSL2/Virtual Machine Platform features are active in Windows.
+### 1. Start the Backend API
+Open a terminal, navigate to your backend directory, activate your virtual environment, and run the FastAPI server:
+```bash
+# Activate your virtual environment
+.\venv\Scripts\activate
+
+# Run the FastAPI server
+uvicorn main:app --reload --port 8000
